@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>DAW2</title>
+    <meta charset="utf-8" />
+    <!--link rel="stylesheet" type="text/css" href="CSS/styles.css"-->
+    <script type="text/javascript" src="JS/script.js"></script>
+    <script type="text/javascript" src="JS/taulaUtility.js"></script>
+</head>
+<body>
+
+    <h1>Graftivitat</h1>
+            <table width="30" border="1" id="taula">
+                <tbody>
+                <tr>
+                    <td></td>
+                    <td><strong>Products</strong>
+                    </td>
+                    <td>
+                        <input type="button" name="addcolbutton" id="addcolbutton" value="Afegeix curs" onclick="addColumn()">
+                    </td>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Distributors</strong>
+                    </td>
+                    <td><strong>Sales Grid</strong>
+                    </td>
+                    <td>
+                        <select name="selProd1" id="selectCol">
+                            <option>DAM</option>
+                            <option selected="selected">DAW</option>
+                            <option>ASIX</option>
+                            <option>ARI</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="selProd2" id="selectCol">
+                                <option>DAM</option>
+                                <option selected="selected">DAW</option>
+                                <option>ASIX</option>
+                                <option>ARI</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="selProd3" id="selectCol">
+                                <option>DAM</option>
+                                <option selected="selected">DAW</option>
+                                <option>ASIX</option>
+                                <option>ARI</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="selProd4" id="selectCol">
+                                <option>DAM</option>
+                                <option selected="selected">DAW</option>
+                                <option>ASIX</option>
+                                <option>ARI</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="button" name="addrowbutton" id="addrowbutton" value="Afegeix camp" onclick="addRowToTable();">
+                    </td>
+                    <td>
+                        <select name="SelDist2" id="selectRow">
+                            <option selected="selected">Jhon Doe</option>
+                            <option>Jane Doe</option>
+                            <option>David</option>
+                            <option>Kelvin</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" id="Newinput">
+                    </td>
+                    <td>
+                        <input type="text" id="Newinput">
+                    </td>
+                    <td>
+                        <input type="text" id="Newinput">
+                    </td>
+                    <td>
+                        <input type="text" id="Newinput">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        <select name="SelDist3" id="selectRow">
+                            <option value="value0">John Doe</option>
+                            <option value="value1">Dane Doe</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" id="Newinput">
+                    </td>
+                    <td>
+                        <input type="text" id="Newinput">
+                    </td>
+                    <td>
+                        <input type="text" id="Newinput">
+                    </td>
+                    <td>
+                        <input type="text" id="Newinput">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        <select name="SelDist4" id="selectRow">
+                            <option value="value0">John Doe</option>
+                            <option value="value1">Dane Doe</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" id="Newinput">
+                    </td>
+                    <td>
+                        <input type="text" id="Newinput">
+                    </td>
+                    <td>
+                        <input type="text" id="Newinput">
+                    </td>
+                    <td>
+                        <input type="text" id="Newinput">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        <select name="SelDist5" id="selectRow">
+                            <option value="value0">John Doe</option>
+                            <option value="value1">Dane Doe</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" id="Newinput">
+                    </td>
+                    <td>
+                        <input type="text" id="Newinput">
+                    </td>
+                    <td>
+                        <input type="text" id="Newinput">
+                    </td>
+                    <td>
+                        <input type="text" id="Newinput">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>
+            <input type="button" name="delRows" id="delRows" value="Remove Selected Row" onClick="deleteSelectedRows()" />
+            <input type="button" name="delCols" id="delCols" value="Remove Selected Col" onClick="deleteSelectedColumns()" />
+        </p>
+        <button id="btAgafaValors">Agafa valors</button>
+        <button id="btCreate">Crea</button>
+        <button id="btLineChart">Crea</button>
+
+        <button onclick="canviaColor()">Try it</button>
+
+        <p id="demo"></p>
+        <p id="demo2"></p>
+        <div>
+        <canvas id="area" />
+        </div>
+        <div>
+        <canvas id="c" width="600" height="350" style="border:1px solid #000000;" />
+        </div>
+
+</body>
+
+</html>

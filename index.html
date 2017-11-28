@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <title>DAW2</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="sergi.grau@fje.edu" />
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <!--script type="text/javascript" src="js/M04_video.js"></script-->
+</head>
+
+<body>
+    <h1>Video API</h1>
+    <div id="vidContainer">
+    <video class="center" id="movies" autobuffer="true">
+  		<source src="media/big_buck_bunny.ogv" type='video/ogg; codecs="theora, vorbis"'>
+    </video><br>
+        <div class="center">
+            <button onclick="document.getElementById('movies').play()">Play</button>
+            <button onclick="document.getElementById('movies').pause()">Pause</button>
+            <button onClick="document.getElementById('movies').volume+=0.1">V+</button>
+            <button onClick="document.getElementById('movies').volume-=0.1">V-</button>
+            <button onclick="document.getElementById('movies').muted=!document.getElementById('movies').muted">Mute/ Unmute</button>
+        </div>
+    </div> 
+</body>
+
+</html>

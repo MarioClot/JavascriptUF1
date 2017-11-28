@@ -1,0 +1,39 @@
+@font-face {
+    font-family: "UbuntuRegular";
+    src: url(../FONTS/Ubuntu-R.ttf);
+    font-style: normal;
+    font-weight: normal;
+}
+
+*{
+    font-family: "UbuntuRegular";
+    
+}
+
+#vidContainer{
+    display: block;
+    margin: 0 auto;
+    background-color: rgb(77, 76, 76);
+    width: 95%;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    
+}
+
+button{
+    border-radius: 5px;
+}
+
+
+.center{
+    display: block;
+    margin: 0 auto;
+    width: 50%; 
+}
+
+div.center{
+    display: block;
+    margin: auto;
+}
