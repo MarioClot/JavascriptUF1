@@ -312,10 +312,14 @@ function barChar(){
             function dibujaGrafico(x,color){
                 ctx2.beginPath();       //empezamos el camino o dibujo
                 ctx2.fillStyle = color;
+                
                 ctx2.moveTo(offset,alturaGrafic+ x*vStep +separacio*x-vStep+separacio+2);
                 var ultimPuntX = offset;      //variable temporal en la que guardamos la cordenada del punto X actual ( sera la separacion entre puntos horizontal )
                 var ultimPuntY =  offset+alturaGrafic- x*vStep +separacio*x-vStep+separacio-widthBarra/2;
                 ctx2.fillRect(ultimPuntX,ultimPuntY,sumaPerRows[x]*10,widthBarra);     // dibujamos la linia hasta el punto en cuestion
+                ctx2.fillStyle = "black";
+                ctx2.font = "bold 20px Arial";
+                ctx2.fillText(window.arrayNomRows[x],offset +45,offset+alturaGrafic- x*vStep +separacio+separacio*x-vStep+separacio);
             }
         }
     }
