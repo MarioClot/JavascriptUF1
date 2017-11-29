@@ -23,9 +23,6 @@ function inici(){
     //agafaNameRows();
     //document.getElementById("demo2").innerHTML = window.arrayNomRows.toString();
 
-    
-    
-    
 function agafaValors(){
 
     table =  document.getElementById("taula");
@@ -41,7 +38,6 @@ function agafaValors(){
             cell = Number(cells[c].children[0].value);
             arrayValors.push(cell);
         }
-        //window.arrayValors[r-2] = window.arrayValorRows.toString();
     }
     var arrayCopy = arrayValors.slice(0);
     var i, j, x;
@@ -50,7 +46,6 @@ function agafaValors(){
     
     for (x=0,i=0,j=arrayCopy.length; i<j; i+=cellsEscrites) {
         temparray = arrayCopy.slice(i,i+cellsEscrites);
-        //alert(temparray);
         arrayValors[x]=temparray;
         x++;
     }
@@ -58,7 +53,6 @@ function agafaValors(){
     agafaNameColumnes();
     agafaNameRows();
     document.getElementById("demo2").innerHTML = window.arrayValors;
-    //alert(arrayValors.length);
 }
 
 function agafaNameColumnes() {
@@ -84,12 +78,9 @@ function agafaNameRows() {
     for (i = 2; i < table.rows.length; i++) {
         var currentRow = table.rows[i].cells[1].children[0];
         window.arrayNomRows[i-2] = currentRow.options[currentRow.selectedIndex].text;
-
     }
-    //alert(arrayNomRows.toString());
 }
 
-//var sumaPerRows=[];
 function sumarValorsRows(){
     var table = document.getElementById("taula");
     var totalRows = table.rows.length-2;
@@ -104,22 +95,7 @@ function sumarValorsRows(){
     alert(sumaPerRows.toString());
 }
 
-
 function crearGrafica(){
-    /*var totalRows = table.rows.length-2;
-    window.sumaPerRows=[];
-    function sumarValorsRows(){
-        
-        for (var i=0;i<totalRows;i++){
-            var sumaRow=0;
-            for ( var num in arrayValors[i]){
-                sumaRow += arrayValors[i][num];                
-            }
-            window.sumaPerRows[i]=sumaRow;
-        }
-        alert(sumaPerRows.toString());
-    }
-*/
 
     sumarValorsRows();
 
@@ -183,10 +159,25 @@ var Piechart = function(options){
             start_angle += slice_angle;
             color_index++;
         }
+
+        start_angle = 0;
+        for (item in sumaPerRows){
+            val = sumaPerRows[item];
+            slice_angle = 2 * Math.PI * val / total_value;
+            var pieRadius = Math.min(this.canvas.width/2,this.canvas.height/2);
+            var labelX = this.canvas.width/2 + (pieRadius / 2) * Math.cos(start_angle + slice_angle/2);
+            var labelY = this.canvas.height/2 + (pieRadius / 2) * Math.sin(start_angle + slice_angle/2);
+    
+            var labelText = Math.round(100 * val / total_value);
+            this.ctx.fillStyle = "white";
+            this.ctx.font = "bold 20px Arial";
+            this.ctx.fillText(labelText+"%", labelX,labelY);
+            start_angle += slice_angle;
+        }
     }
+    
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function crearLineChart(){
     
         lineChart.width = 600;  //le asignamos el ancho al total del canvas
