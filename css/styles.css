@@ -37,3 +37,10 @@ div.center{
     display: block;
     margin: auto;
 }
+
+#areaLineChart {
+    background: url(../media/btPlay.png);
+}
+
+#areaLineChart, img { display:block; margin:1em auto; border:1px solid black; }
+#areaLineChart { background:url(../media/btPlay.png) }
