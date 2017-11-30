@@ -5,17 +5,19 @@ var arrayValorRows;
 var arrayNomRows;
 var table;
 var sumaPerRows;
+var arrayColors;
 
 function inici(){
-    var myCanvas = document.getElementById("area");
+    var myCanvas = document.getElementById("areaPieChart");
     //var ctx = myCanvas.getContext("2d");
     //table = document.getElementById("taula");
-    var lineChart = document.getElementById("c");
-    var ctx2 = lineChart.getContext("2d");
+    var lineChart = document.getElementById("areaLineChart");
+    //var ctx2 = lineChart.getContext("2d");
+    var barChart = document.getElementById("areaBarChart");
 
-    var btCreate = document.getElementById("btCreate").addEventListener("click",crearGrafica,true);
-    //var btLineChart = document.getElementById("btLineChart").addEventListener("click",crearLineChart,true);
-    var btBarChart = document.getElementById("btLineChart").addEventListener("click",barChar,true);
+    var btCreate = document.getElementById("btCreate").addEventListener("click",pieChart,true);
+    var btLineChart = document.getElementById("btLineChart").addEventListener("click",crearLineChart,true);
+    var btBarChart = document.getElementById("btBarChart").addEventListener("click",crearBarChar,true);
     var btagafaValors = document.getElementById("btAgafaValors").addEventListener("click",agafaValors,true);
     //agafaNameColumnes();
     //document.getElementById("demo").innerHTML = window.arrayNomColumns.toString();
@@ -52,6 +54,7 @@ function agafaValors(){
 
     agafaNameColumnes();
     agafaNameRows();
+    agafaColors();
     document.getElementById("demo2").innerHTML = window.arrayValors;
 }
 
@@ -95,7 +98,20 @@ function sumarValorsRows(){
     alert(sumaPerRows.toString());
 }
 
-function crearGrafica(){
+function agafaColors(){
+    var table = document.getElementById("taula");
+    var totalRows = table.rows.length-2;
+    window.arrayColors=[];
+    for (var i = 2; i < table.rows.length; i++){
+        var color = table.rows[i].cells[0].children[0].value;
+        window.arrayColors[i-2] = color;
+    }
+    console.log(window.arrayColors.toString());
+}
+
+
+
+function pieChart(){
 
     sumarValorsRows();
 
@@ -111,7 +127,7 @@ function crearGrafica(){
         {
             canvas:myCanvas,
             data:myVinyls,
-            colors:["#ff0000","#00008b","#00fa9a","#ffd700","#5fcdee","#c465e5"]
+            colors:window.arrayColors
         }
     );
     myPiechart.draw();
@@ -180,6 +196,10 @@ var Piechart = function(options){
 
 function crearLineChart(){
     
+        var ctx2 = lineChart.getContext("2d");
+        var anchoLinia = document.getElementById("lineWidth");
+        var estilLinia = document.getElementById("estilLinia");
+    
         lineChart.width = 600;  //le asignamos el ancho al total del canvas
         lineChart.height = 400; //le asignamos la altura total del canvas
         
@@ -199,7 +219,7 @@ function crearLineChart(){
         ctx2.stroke();  //pintamos el camino
         dibujaHorizontal();     //dibujamos las cordenadas horizontales
         dibujaVertical();     //dibujamos las cordenadas verticales
-        var colors = ["#ff0000","#00008b","#00fa9a","#ffd700","#5fcdee","#c465e5"];  //array donde guardamos los colores de las linias
+        var colors = window.arrayColors;  //array donde guardamos los colores de las linias
         for ( var x = 0; x < table.rows.length; x++){  //desde 0 hasta que alcancemos el numero de filas de la tabla
             dibujaGrafico(x,colors[x]);     //dibujamos el grafico con el color que le toca
         }
@@ -237,7 +257,8 @@ function crearLineChart(){
             ctx2.beginPath();       //empezamos el camino o dibujo
             ctx2.strokeStyle = color;          //le asignamos un color a la linia
             ctx2.fillStyle = color;
-            ctx2.lineWidth = 2;     // ancho de la linia dibujada sera de 2
+            ctx2.lineWidth = anchoLinia.value;     // ancho de la linia dibujada sera de 2
+            ctx2.setLineDash([estilLinia.value]);
             //ctx2.moveTo(offset,alturaGrafic+offset);        // nos movemos al punto (50, 300)
             ctx2.moveTo(offset+hStep,alturaGrafic+offset-arrayValors[x][0]*10);
             for( var i = 1; i <= dadesHor; i++){       //desde i = 1 hasta la ultima row (de la fila en concreto)
@@ -255,71 +276,74 @@ function crearLineChart(){
    
 
 
-function barChar(){
+function crearBarChar(){
+
+    var ctx3 = barChart.getContext("2d");
+    var tipusLletra = document.getElementById("canviaFont");
 
             sumarValorsRows();
     
-            lineChart.width = 600;  //le asignamos el ancho al total del canvas
-            lineChart.height = 400; //le asignamos la altura total del canvas
+            barChart.width = 600;  //le asignamos el ancho al total del canvas
+            barChart.height = 400; //le asignamos la altura total del canvas
             var dadesVert = table.rows.length-2;
             var offset = 50;  //le asignamos a la variable offset 50 para que el dibujo no se quede oculto en ninguno bo de los bordes
-            var alturaGrafic = lineChart.height -2 * offset;  //la altura de el eje de las Y (vertical) sera el total del alto del canvas menos dos veces el offset (350-2*50), para los margenes de arriba y abajo
-            var anchuraGrafic = lineChart.width -2 * offset;  //la anchura de el eje de las X (horizontal) sera el total del ancho del canvas menos dos veces el offset (600-2*50), para los margenes de izq y derecha
+            var alturaGrafic = barChart.height -2 * offset;  //la altura de el eje de las Y (vertical) sera el total del alto del canvas menos dos veces el offset (350-2*50), para los margenes de arriba y abajo
+            var anchuraGrafic = barChart.width -2 * offset;  //la anchura de el eje de las X (horizontal) sera el total del ancho del canvas menos dos veces el offset (600-2*50), para los margenes de izq y derecha
             
             var vStep = alturaGrafic / dadesVert; //la separacion horizontal entre los puntos en el eje de las X sera la anchura del eje X entre el total de datos
             var separacio = vStep / 5;
             var hStep = 50;  //la separacion entre puntos del eje Y sera de 50
             var widthBarra = alturaGrafic / dadesVert - separacio*2;
 
-            ctx2.beginPath();  //iniciamos un camino o dibujo
-            ctx2.moveTo(offset,offset);   //nos movemos al punto (50,50)
-            ctx2.lineTo(offset,alturaGrafic+offset); //dibujamos una linia hacia el punto (50,300)
-            ctx2.lineTo(anchuraGrafic+offset,alturaGrafic+offset); //dibujamos otra linia hacia el punto (550,300)
-            ctx2.stroke();  //pintamos el camino
+            ctx3.beginPath();  //iniciamos un camino o dibujo
+            ctx3.moveTo(offset,offset);   //nos movemos al punto (50,50)
+            ctx3.lineTo(offset,alturaGrafic+offset); //dibujamos una linia hacia el punto (50,300)
+            ctx3.lineTo(anchuraGrafic+offset,alturaGrafic+offset); //dibujamos otra linia hacia el punto (550,300)
+            ctx3.stroke();  //pintamos el camino
             dibujaHorizontal();     //dibujamos las cordenadas horizontales
             dibujaVertical();     //dibujamos las cordenadas verticales
 
             console.log(dadesVert);
             console.log(window.sumaPerRows.toString());
-            var colors = ["#ff0000","#00008b","#00fa9a","#ffd700","#5fcdee","#c465e5"];  //array donde guardamos los colores de las linias
+            var colors = window.arrayColors;  //array donde guardamos los colores de las linias
             for ( var x = 0; x < dadesVert; x++){  //desde 0 hasta que alcancemos el numero de filas de la tabla
-                dibujaGrafico(x,colors[x]);     //dibujamos el grafico con el color que le toca
+                dibujaGrafico(x,window.arrayColors[x]);     //dibujamos el grafico con el color que le toca
             }
     
             function dibujaHorizontal(){
-                ctx2.beginPath();       //empezamos un camino o dibujo
+                ctx3.beginPath();       //empezamos un camino o dibujo
                 
-                ctx2.moveTo(offset,alturaGrafic+offset);        //nos movemos al punto (50,300)
+                ctx3.moveTo(offset,alturaGrafic+offset);        //nos movemos al punto (50,300)
                 for ( var i = 0; i <=10; i++){
-                    ctx2.moveTo(offset+i*hStep,alturaGrafic+offset);        // nos movemos al punto (50 + i*separacion horizontal entre datos , 300)
-                    ctx2.lineTo(offset+i*hStep,offset+alturaGrafic+5);      // pintamos una linia desde el punto anterior hacia 5 pixeles mas abajo, para marcar el eje X de cordenadas
-                    ctx2.fillText((i*hStep)/10,offset-5 +i*hStep,offset+alturaGrafic+15);
+                    ctx3.moveTo(offset+i*hStep,alturaGrafic+offset);        // nos movemos al punto (50 + i*separacion horizontal entre datos , 300)
+                    ctx3.lineTo(offset+i*hStep,offset+alturaGrafic+5);      // pintamos una linia desde el punto anterior hacia 5 pixeles mas abajo, para marcar el eje X de cordenadas
+                    ctx3.fillText((i*hStep)/10,offset-5 +i*hStep,offset+alturaGrafic+15);
                 }
-                ctx2.stroke();      // repasamos la linia
+                ctx3.stroke();      // repasamos la linia
             }
 
             function dibujaVertical(){
-                ctx2.beginPath();       //empezamos un camino o dibujo
+                ctx3.beginPath();       //empezamos un camino o dibujo
                 
-                ctx2.moveTo(offset,alturaGrafic+offset);         //nos movemos al punto (50,300)
+                ctx3.moveTo(offset,alturaGrafic+offset);         //nos movemos al punto (50,300)
                 for ( var i = 0; i < dadesVert; i++){       //desde 0 hasta 4 que sera la cantidad de marcas que habra en el eje vertical
-                    ctx2.moveTo(offset,alturaGrafic+offset - i*vStep +separacio*i);        // nos movemos al punto (50, 250+50 -  + i*separacion vertical entre marcas )
-                    ctx2.fillText(window.arrayNomRows[i],offset -45,offset+alturaGrafic- i*vStep +separacio*i-vStep+separacio+2);
+                    ctx3.moveTo(offset,alturaGrafic+offset - i*vStep +separacio*i);        // nos movemos al punto (50, 250+50 -  + i*separacion vertical entre marcas )
+                    ctx3.fillText(window.arrayNomRows[i],offset -45,offset+alturaGrafic- i*vStep +separacio*i-vStep+separacio+2);
                 }
-                ctx2.stroke();      // repasamos la linia
+                ctx3.stroke();      // repasamos la linia
             }
     
             function dibujaGrafico(x,color){
-                ctx2.beginPath();       //empezamos el camino o dibujo
-                ctx2.fillStyle = color;
+                ctx3.beginPath();       //empezamos el camino o dibujo
+                ctx3.fillStyle = color;
                 
-                ctx2.moveTo(offset,alturaGrafic+ x*vStep +separacio*x-vStep+separacio+2);
+                ctx3.moveTo(offset,alturaGrafic+ x*vStep +separacio*x-vStep+separacio+2);
                 var ultimPuntX = offset;      //variable temporal en la que guardamos la cordenada del punto X actual ( sera la separacion entre puntos horizontal )
                 var ultimPuntY =  offset+alturaGrafic- x*vStep +separacio*x-vStep+separacio-widthBarra/2;
-                ctx2.fillRect(ultimPuntX,ultimPuntY,sumaPerRows[x]*10,widthBarra);     // dibujamos la linia hasta el punto en cuestion
-                ctx2.fillStyle = "black";
-                ctx2.font = "bold 20px Arial";
-                ctx2.fillText(window.arrayNomRows[x],offset +45,offset+alturaGrafic- x*vStep +separacio+separacio*x-vStep+separacio);
+                ctx3.fillRect(ultimPuntX,ultimPuntY,sumaPerRows[x]*10,widthBarra);     // dibujamos la linia hasta el punto en cuestion
+                ctx3.fillStyle = "black";
+                ctx3.font = "bold 20px "+canviaFont.value;
+                ctx3.fillText(window.arrayNomRows[x],offset +45,offset+alturaGrafic- x*vStep +separacio+separacio*x-vStep+separacio);
             }
         }
     }
