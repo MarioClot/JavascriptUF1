@@ -85,7 +85,7 @@ function deleteSelectedRows() {
     var NoOfrows = tb.rows.length;
     for (var i = 0; i < NoOfrows; i++) {
         var row = tb.rows[i];
-        var chkbox = row.cells[0].childNodes[0]; //get check box object               
+        var chkbox = row.cells[0].childNodes[1]; //get check box object               
         if (null != chkbox && true == chkbox.checked) { //wheather check box is selected                   
             tb.deleteRow(i); //delete the selected row                    
             NoOfrows--; //decrease rowcount by 1                   

@@ -401,7 +401,7 @@ function crearBarChar(){
         var ultimPuntY =  offset+alturaGrafic- x*vStep +separacio*x-vStep+separacio-widthBarra/2;
         ctx3.fillRect(ultimPuntX,ultimPuntY,sumaPerRows[x]*10,widthBarra);     // dibujamos la linia hasta el punto en cuestion
         ctx3.fillStyle = "black";
-        ctx3.font = "bold 18px "+tipusLletra.value;
+        ctx3.font = "bold 18px "+ tipusLletra.value;
         ctx3.fillText(window.arrayNomRows[x],offset +45,offset+alturaGrafic- x*vStep +separacio+separacio*x-vStep+separacio);
     }
     }
