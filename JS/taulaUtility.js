@@ -21,6 +21,7 @@ function addRowToTable() {
         var element_2 = document.createElement('select');
         element_2.name = 'SelDist' + rowCount;
         element_2.setAttribute('id','selectRow');
+        element_2.setAttribute('class','form-control');
         element_2.options[0] = new Option('John Doe', 'value0');
         element_2.options[1] = new Option('Dane Doe', 'value1');
         cell_2.appendChild(element_2);
@@ -31,7 +32,8 @@ function addRowToTable() {
                 var newCel = row.insertCell(i - 1); //create a new cell           
                 var element_3 = document.createElement("input");
                 element_3.type = "text";
-                element_3.setAttribute('id', 'newInput'); //set the id attribute     
+                element_3.setAttribute('id', 'newInput'); //set the id attribute
+                element_3.setAttribute('class','form-control');  
                 newCel.appendChild(element_3);
             }
         }
@@ -56,9 +58,9 @@ function addColumn() {
         //For Every Coloumn Added add Drop down list on second row-------------------------------------
         var newselectboxcell = tblBodyObj.rows[1].insertCell(-1);
         var element_5 = document.createElement('select');
-        //element_5.name = 'SelProd' + rowCount;
         element_5.name = 'SelProd'+(columnCount-1);
         element_5.setAttribute('id','selectCol');
+        element_5.setAttribute('class','form-control');
         element_5.options[0] = new Option('DAM', 'value0');
         element_5.options[1] = new Option('DAW', 'value1');
         element_5.options[2] = new Option('ASIX', 'value2');
@@ -72,6 +74,7 @@ function addColumn() {
             var element_6 = document.createElement("input");
             element_6.type = "text"
             element_6.setAttribute('id', 'Newinput');
+            element_6.setAttribute('class','form-control');
             newCell.appendChild(element_6)
         }
     }

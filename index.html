@@ -6,6 +6,7 @@
     <meta charset="utf-8" />
     <meta name="author" content="sergi.grau@fje.edu" />
     <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <!--script type="text/javascript" src="js/M04_video.js"></script-->
 </head>
 
@@ -16,13 +17,18 @@
   		<source src="media/big_buck_bunny.ogv" type='video/ogg; codecs="theora, vorbis"'>
     </video><br>
         <div class="center">
-            <button onclick="document.getElementById('movies').play()">Play</button>
-            <button onclick="document.getElementById('movies').pause()">Pause</button>
-            <button onClick="document.getElementById('movies').volume+=0.1">V+</button>
-            <button onClick="document.getElementById('movies').volume-=0.1">V-</button>
-            <button onclick="document.getElementById('movies').muted=!document.getElementById('movies').muted">Mute/ Unmute</button>
+            <button class="btn" onclick="document.getElementById('movies').play()">Play</button>
+            <button class="btn" onclick="document.getElementById('movies').pause()">Pause</button>
+            <button class="btn" onClick="document.getElementById('movies').volume-=0.1">V-</button>
+            <button class="btn" onClick="document.getElementById('movies').volume+=0.1">V+</button>
+            <button class="btn" onclick="document.getElementById('movies').muted=!document.getElementById('movies').muted">Mute/ Unmute</button>
+            <button class="btn" onclick="document.getElementById('movies').currentTime=0">Inici</button>
+            <button class="btn" onclick="document.getElementById('movies').currentTime=document.getElementById('movies').duration">Final</button>
         </div>
-    </div> 
+    </div>
+    <form action="graficas.html">
+        <input class="btn" type="submit" value="Ves a les grafiques" />
+    </form>
 </body>
 
 </html>

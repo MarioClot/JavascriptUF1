@@ -9,13 +9,15 @@ var arrayColors;
 
 function inici(){
     var myCanvas = document.getElementById("areaPieChart");
+    var myCanvas2 = document.getElementById("areaDoughnutChart");
     var lineChart = document.getElementById("areaLineChart");
     var barChart = document.getElementById("areaBarChart");
 
     var btCreate = document.getElementById("btCreate").addEventListener("click",pieChart,true);
+    var btCreate2 = document.getElementById("btCreate2").addEventListener("click",doughnutChart,true);
     var btLineChart = document.getElementById("btLineChart").addEventListener("click",crearLineChart,true);
     var btBarChart = document.getElementById("btBarChart").addEventListener("click",crearBarChar,true);
-    var btagafaValors = document.getElementById("btAgafaValors").addEventListener("click",agafaValors,true);
+    //var btagafaValors = document.getElementById("btAgafaValors").addEventListener("click",agafaValors,true);
 
 function agafaValors(){
     table =  document.getElementById("taula");
@@ -23,7 +25,6 @@ function agafaValors(){
     window.arrayValorRows=[];
 
     var rows = table.rows, rowcount = rows.length, r, cells, cellcount, c, cell;
-    console.log("rowcount="+rowcount);
     for( r=2; r<rowcount; r++) {
         cells = rows[r].cells;
         cellcount = cells.length;
@@ -35,7 +36,6 @@ function agafaValors(){
     var arrayCopy = arrayValors.slice(0);
     var i, j, x;
     var cellsEscrites = cellcount-2;
-    console.log("rowsescrites="+cellsEscrites);
     for (x=0,i=0,j=arrayCopy.length; i<j; i+=cellsEscrites) {
         temparray = arrayCopy.slice(i,i+cellsEscrites);
         arrayValors[x]=temparray;
@@ -44,7 +44,6 @@ function agafaValors(){
     agafaNameColumnes();
     agafaNameRows();
     agafaColors();
-    document.getElementById("demo2").innerHTML = window.arrayValors;
 }
 
 function agafaNameColumnes() {
@@ -81,7 +80,6 @@ function sumarValorsRows(){
         }
         window.sumaPerRows[i]=sumaRow;
     }
-    alert(sumaPerRows.toString());
 }
 
 function agafaColors(){
@@ -92,25 +90,17 @@ function agafaColors(){
         var color = table.rows[i].cells[0].children[0].value;
         window.arrayColors[i-2] = color;
     }
-    console.log(window.arrayColors.toString());
 }
 
 function pieChart(){
-
+    agafaValors();
     sumarValorsRows();
     var myLegend = document.getElementById("myLegend");
     myCanvas.width = 300;
     myCanvas.height = 300;
-    var myVinyls = {
-        "Classical music": 10,
-        "Alternative rock": 20,
-        "Pop": 30        
-    };
-
     var myPiechart = new Piechart(
         {
             canvas:myCanvas,
-            data:myVinyls,
             colors:window.arrayColors,
             legend:myLegend
         }
@@ -186,8 +176,106 @@ var Piechart = function(options){
     }
 }
 
-function crearLineChart(){
+function doughnutChart(){
+        agafaValors();
+        sumarValorsRows();
+        var myLegend2 = document.getElementById("myLegend2");
+        myCanvas2.width = 300;
+        myCanvas2.height = 300;
     
+        var myDougnutChart  = new Piechart(
+            {
+                canvas:myCanvas2,
+                colors:window.arrayColors,
+                legend:myLegend2,
+                doughnutHoleSize:0.5
+            }
+        );
+        myDougnutChart.draw();
+    }
+    
+    var Piechart = function(options){
+        this.options = options;
+        this.canvas = options.canvas;
+        this.ctx = this.canvas.getContext("2d");
+        this.colors = options.colors;
+    
+        function drawPieSlice(ctx,centerX, centerY, radius, startAngle, endAngle, color ){
+               ctx.fillStyle = color;
+               ctx.beginPath();
+               ctx.moveTo(centerX,centerY);
+               ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+               ctx.closePath();
+               ctx.fill();
+           }
+           var tipusLletra = document.getElementById("canviaFont");
+     
+        this.draw = function(){
+            var total_value = 0;
+            var color_index = 0;
+    
+            for ( var item in sumaPerRows){
+                var val = sumaPerRows[item];
+                total_value += val;
+            }
+    
+            var start_angle = 0;
+            for ( item in sumaPerRows){
+                val = sumaPerRows[item];
+                var slice_angle = 2 * Math.PI * val / total_value;
+    
+                drawPieSlice(
+                    this.ctx,
+                    this.canvas.width/2,
+                    this.canvas.height/2,
+                    Math.min(this.canvas.width/2,this.canvas.height/2),
+                    start_angle,
+                    start_angle+slice_angle,
+                    this.colors[color_index%this.colors.length]
+                );
+                start_angle += slice_angle;
+                color_index++;
+            }
+
+            if (this.options.doughnutHoleSize){
+                drawPieSlice(
+                    this.ctx,
+                    this.canvas.width/2,
+                    this.canvas.height/2,
+                    this.options.doughnutHoleSize * Math.min(this.canvas.width/2,this.canvas.height/2),
+                    0,
+                    2 * Math.PI,
+                    "#ffffff"
+                );
+            }
+    
+            start_angle = 0;
+            for (item in sumaPerRows){
+                val = sumaPerRows[item];
+                slice_angle = 2 * Math.PI * val / total_value;
+                var pieRadius = Math.min(this.canvas.width/2,this.canvas.height/2);
+                var labelX = this.canvas.width/2 + (pieRadius /1.4) * Math.cos(start_angle + slice_angle/2);
+                var labelY = this.canvas.height/2 + (pieRadius /1.4) * Math.sin(start_angle + slice_angle/2);
+                var labelText = Math.round(100 * val / total_value);
+                this.ctx.fillStyle = "white";
+                this.ctx.font = "bold 20px "+tipusLletra.value;
+                this.ctx.fillText(labelText+"%", labelX,labelY);
+                start_angle += slice_angle;
+            }
+    
+            if (this.options.legend){
+                color_index = 0;
+                var legendHTML = "";
+                for (item in arrayNomRows){
+                    legendHTML += "<div><span style='display:inline-block;width:20px;background-color:"+window.arrayColors[color_index++]+";'>&nbsp;</span> "+arrayNomRows[item]+"</div>";
+                }
+                this.options.legend.innerHTML = legendHTML;
+            }
+        }
+    }
+
+function crearLineChart(){
+        agafaValors();
         var ctx2 = lineChart.getContext("2d");
         var anchoLinia = document.getElementById("lineWidth");
         var estilLinia = document.getElementById("estilLinia");
@@ -229,7 +317,6 @@ function crearLineChart(){
             ctx2.beginPath();       //empezamos un camino o dibujo
             ctx2.moveTo(offset,alturaGrafic+offset);         //nos movemos al punto (50,300)
             for ( var i = 0; i <= 6; i++){       //desde 0 hasta 4 que sera la cantidad de marcas que habra en el eje vertical
-                console.log("soy retrasao");        //reafirmo mi inutilidad otra vez para comprobar que todo funcionaba
                 ctx2.moveTo(offset,alturaGrafic+offset - i*vStep);        // nos movemos al punto (50, 250+50 -  + i*separacion vertical entre marcas )
                 ctx2.lineTo(offset-5,alturaGrafic+offset - i*vStep);      // pintamos una linia desde el punto anterior hacia 5 pixeles a la izquierda, para marcar el eje Y de cordenadas
                 ctx2.fillText((i*vStep)/10,offset-20, offset+alturaGrafic - i*vStep);
@@ -243,13 +330,12 @@ function crearLineChart(){
             ctx2.fillStyle = color;
             ctx2.lineWidth = anchoLinia.value;     // ancho de la linia dibujada sera de 2
             ctx2.setLineDash([estilLinia.value]);
-            //ctx2.moveTo(offset,alturaGrafic+offset);        // nos movemos al punto (50, 300)
             ctx2.moveTo(offset+hStep,alturaGrafic+offset-arrayValors[x][0]*10);
             for( var i = 1; i <= dadesHor; i++){       //desde i = 1 hasta la ultima row (de la fila en concreto)
                 var ultimPuntX = offset + hStep*i;      //variable temporal en la que guardamos la cordenada del punto X actual ( sera la separacion entre puntos horizontal )
                 var ultimPuntY = alturaGrafic+offset-arrayValors[x][i-1]*10;        //variable temporal en la que guardamos la cordenada del punto Y actual ( sera la altura del grafico + 50 - el valor que queramos representar*10, para escalarlo)
                 ctx2.lineTo(ultimPuntX,ultimPuntY);     // dibujamos la linia hasta el punto en cuestion
-                ctx2.fillRect(ultimPuntX-1.5,ultimPuntY-1.5,3,3)
+                ctx2.fillRect(ultimPuntX-1.5,ultimPuntY-1.5,3,3);
                 ctx2.moveTo(ultimPuntX,ultimPuntY);     //nos movemos hasta el punto en cuestion para en la siguiente iteracion dibujar ya desde ahi
             }
             ctx2.stroke();      //repasamos la linia
@@ -257,7 +343,7 @@ function crearLineChart(){
     }
 
 function crearBarChar(){
-
+    agafaValors();
     var ctx3 = barChart.getContext("2d");
     var tipusLletra = document.getElementById("canviaFont");
     sumarValorsRows();
@@ -268,7 +354,6 @@ function crearBarChar(){
     var offset = 50;  //le asignamos a la variable offset 50 para que el dibujo no se quede oculto en ninguno bo de los bordes
     var alturaGrafic = barChart.height -2 * offset;  //la altura de el eje de las Y (vertical) sera el total del alto del canvas menos dos veces el offset (350-2*50), para los margenes de arriba y abajo
     var anchuraGrafic = barChart.width -2 * offset;  //la anchura de el eje de las X (horizontal) sera el total del ancho del canvas menos dos veces el offset (600-2*50), para los margenes de izq y derecha
-    
     var vStep = alturaGrafic / dadesVert; //la separacion horizontal entre los puntos en el eje de las X sera la anchura del eje X entre el total de datos
     var separacio = vStep / 5;
     var hStep = 50;  //la separacion entre puntos del eje Y sera de 50
@@ -282,8 +367,6 @@ function crearBarChar(){
     dibujaHorizontal();     //dibujamos las cordenadas horizontales
     dibujaVertical();     //dibujamos las cordenadas verticales
 
-    console.log(dadesVert);
-    console.log(window.sumaPerRows.toString());
     var colors = window.arrayColors;  //array donde guardamos los colores de las linias
     for ( var x = 0; x < dadesVert; x++){  //desde 0 hasta que alcancemos el numero de filas de la tabla
         dibujaGrafico(x,window.arrayColors[x]);     //dibujamos el grafico con el color que le toca
