@@ -245,7 +245,7 @@ function doughnutChart(){
                     this.options.doughnutHoleSize * Math.min(this.canvas.width/2,this.canvas.height/2),
                     0,
                     2 * Math.PI,
-                    "#ffffff"
+                    "lightblue"
                 );
             }
     
@@ -348,7 +348,7 @@ function crearBarChar(){
     var tipusLletra = document.getElementById("canviaFont");
     sumarValorsRows();
 
-    barChart.width = 600;  //le asignamos el ancho al total del canvas
+    barChart.width = 700;  //le asignamos el ancho al total del canvas
     barChart.height = 400; //le asignamos la altura total del canvas
     var dadesVert = table.rows.length-2;
     var offset = 50;  //le asignamos a la variable offset 50 para que el dibujo no se quede oculto en ninguno bo de los bordes
@@ -388,7 +388,7 @@ function crearBarChar(){
         ctx3.moveTo(offset,alturaGrafic+offset);         //nos movemos al punto (50,300)
         for ( var i = 0; i < dadesVert; i++){       //desde 0 hasta 4 que sera la cantidad de marcas que habra en el eje vertical
             ctx3.moveTo(offset,alturaGrafic+offset - i*vStep +separacio*i);        // nos movemos al punto (50, 250+50 -  + i*separacion vertical entre marcas )
-            ctx3.fillText(window.arrayNomRows[i],offset -45,offset+alturaGrafic- i*vStep +separacio*i-vStep+separacio+2);
+            //ctx3.fillText(window.arrayNomRows[i],offset -45,offset+alturaGrafic- i*vStep +separacio*i-vStep+separacio+2);
         }
         ctx3.stroke();      // repasamos la linia
     }
