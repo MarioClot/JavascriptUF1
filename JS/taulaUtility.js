@@ -22,8 +22,12 @@ function addRowToTable() {
         element_2.name = 'SelDist' + rowCount;
         element_2.setAttribute('id','selectRow');
         element_2.setAttribute('class','form-control');
-        element_2.options[0] = new Option('John Doe', 'value0');
-        element_2.options[1] = new Option('Dane Doe', 'value1');
+        element_2.options[0] = new Option('Porque nos interesa la asignatura', 'value0');
+        element_2.options[1] = new Option('¿Qué dinosaurio te gustaría ser?', 'value1');
+        element_2.options[2] = new Option('Porque cuenta para nota', 'value2');
+        element_2.options[3] = new Option('¿Qué es un proyecto?', 'value3');
+        element_2.options[4] = new Option('¿Como, que había trabajo?', 'value4');
+        element_2.options[5] = new Option('¿Por qué para apagar windows hay que ir al botón de inicio?', 'value5');
         cell_2.appendChild(element_2);
 
         // For Every Row Added add a textbox on the rest of the cells starting with the 3rd,4th,5th...  coloumns going on...
@@ -33,7 +37,8 @@ function addRowToTable() {
                 var element_3 = document.createElement("input");
                 element_3.type = "text";
                 element_3.setAttribute('id', 'newInput'); //set the id attribute
-                element_3.setAttribute('class','form-control');  
+                element_3.setAttribute('class','form-control'); 
+                element_3.setAttribute('max',30);  
                 newCel.appendChild(element_3);
             }
         }
@@ -75,6 +80,7 @@ function addColumn() {
             element_6.type = "text"
             element_6.setAttribute('id', 'Newinput');
             element_6.setAttribute('class','form-control');
+            element_6.setAttribute('max',30); 
             newCell.appendChild(element_6)
         }
     }

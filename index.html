@@ -4,16 +4,16 @@
 <head>
     <title>DAW2</title>
     <meta charset="utf-8" />
-    <meta name="author" content="sergi.grau@fje.edu" />
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <meta name="author" content="Mario Recamales y Luis Alonso" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
     <!--script type="text/javascript" src="js/M04_video.js"></script-->
 </head>
 
 <body>
-    <h1>Video API</h1>
+    <h1>Graftivitat</h1>
     <div id="vidContainer">
-    <video class="center" id="movies" autobuffer="true">
+    <video class="center" id="movies" autobuffer="true" autoplay>
   		<source src="media/big_buck_bunny.ogv" type='video/ogg; codecs="theora, vorbis"'>
     </video><br>
         <div class="center">
@@ -26,8 +26,11 @@
             <button class="btn" onclick="document.getElementById('movies').currentTime=document.getElementById('movies').duration">Final</button>
         </div>
     </div>
-    <form action="graficas.html">
-        <input class="btn" type="submit" value="Ves a les grafiques" />
+    <p class="izquierda">Bienvenido querido usuario, esta es nuestra humilde página donde te enseñaremos nuestro proyecto de javascript.</br>El proyecto trata de crear una aplicación, que veréis si pulsáis encima del botón de abajo , que muestre 4 tipos de gráficas donde el usuario necesita introducir los datos que quiere.</p>
+    </br>
+    </br>   
+    <form action="graficas.html" >
+        <input class="btn" type="submit" value="Ves a les grafiques" style="margin-left: 40px"/>
     </form>
 </body>
 
